@@ -1,6 +1,6 @@
 # MedicalClinicDB
 
-# Project Description
+## Project Description
 **MiniWorld Description**: The database is designed to support a healthcare provider company with multiple offices across different states. The company employs general practice doctors and specialists who provide healthcare services to patients. The database will manage information on patients, doctors, appointments, medical records, medical offices, prescriptions, referral approvals, medical tests, and billing. Our program will ensure efficient coordination among various locations.
 
 Doctors specialize in different medical fields and can work in one or more office locations. A patient is assigned to a primary physician who will provide general care. If specialized treatment is needed, the primary physician will refer the patient to a specialist within their network. 
@@ -10,7 +10,7 @@ Patients can schedule or cancel appointments with their primary care physician/s
 At an appointment, the doctor can view a patient’s information, update medical records, create prescriptions, and request medical tests. A patient’s medical record can be updated with diagnoses, prescribed treatments, or referrals for more tests as needed. The system also tracks medical records, prescriptions, and billing to ensure financial processing. 
 
 
-# Project Requirements
+## Project Requirements
 
 ### 5 Must Haves
 
