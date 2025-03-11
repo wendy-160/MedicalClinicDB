@@ -15,26 +15,51 @@ At an appointment, the doctor can view a patient’s information, update medical
 ### 5 Must Haves
 
 - **User authentication for different user roles**.
-  Doctors:
-  View and update a patient’s medical record
-  Approve/reject/create appointment requests
-  Add medical notes and prescriptions
-  Patients: 
-  Schedule/cancel appointments
-  View medical history
-  Update profile and contact details
-  Managers/Admins:
-  Manage doctors and clinic staff
-  Approve new clinic registrations
-  Receptionists:
-  Register new patients
-  Schedule appointments for patients
-  Update clinic schedules
+  - Doctors:
+    - View and update a patient’s medical record
+    - Approve/reject/create appointment requests
+    - Add medical notes and prescriptions
+  - Patients: 
+    - Schedule/cancel appointments
+    - View medical history
+    - Update profile and contact details
+  - Managers/Admins:
+    - Manage doctors and clinic staff
+    - Approve new clinic registrations
+    - Receptionists:
+    - Register new patients
+    - Schedule appointments for patients
+    - Update clinic schedules
 - **Data entry forms**.
-  - to add new data, modify existing data, and ‘delete’ data.
+  - Add new data:
+    - Patients can register for the first time
+    - Patients can request appointments
+    - Doctors can add medical records and prescriptions
+    - Admins can add new clinics and doctors
+    - Receptionists can register new patients
+    - Doctors can request medical tests for a patient
+  - Modify existing data:
+    - Patients can update their profile and reschedule their appointments
+    - Doctors can update patient medical history
+    - Admins can modify clinic details
+    - Doctors can update or cancel test requests
+  - ‘delete’ data:
+    - Patients can deactivate their accounts
+    - Admins can deactivate employee accounts
+    - Doctors can archive old prescriptions
 - **Triggers**.
-  - At least 2.
+  - email notifications as reminders for upcoming appointments for patients
+  - email notifications for prescriptions refill reminders
+  - email notifications for canceled or rescheduled appointments
+  - email notifications to alert doctors when test results are available
 - **Data queries**.
-  - At least 3.
+  - Get patient appointment history
+  - Get a list of all doctors and their specialties
+  - Get available time slots for a doctor
+  - Get a list of all clinics in a specific state
+  - Get the medical record for a specific patient
+  - Retrieve all test requests for a specific patient
 - **Data reports**.
-  - At least 3.
+  - Number of appointments per clinic a month
+  - Most frequently requested medical tests
+  - Number of urgent test requests per month
