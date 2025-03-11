@@ -15,6 +15,21 @@ At an appointment, the doctor can view a patient’s information, update medical
 ### 5 Must Haves
 
 - **User authentication for different user roles**.
+  Doctors:
+  View and update a patient’s medical record
+  Approve/reject/create appointment requests
+  Add medical notes and prescriptions
+  Patients: 
+  Schedule/cancel appointments
+  View medical history
+  Update profile and contact details
+  Managers/Admins:
+  Manage doctors and clinic staff
+  Approve new clinic registrations
+  Receptionists:
+  Register new patients
+  Schedule appointments for patients
+  Update clinic schedules
 - **Data entry forms**.
   - to add new data, modify existing data, and ‘delete’ data.
 - **Triggers**.
