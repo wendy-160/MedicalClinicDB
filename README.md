@@ -15,21 +15,23 @@ At an appointment, the doctor can view a patient’s information, update medical
 ### 5 Must Haves
 
 - **User authentication for different user roles**.
-  - Doctors:
-    - View and update a patient’s medical record
+  - Doctors (Some Access):
+    - Home | Appointments | Patients | Medical Tests | Prescriptions | Referrals
     - Approve/reject/create appointment requests
+    - Edit medical records
     - Add medical notes and prescriptions
-  - Patients: 
+    - Order tests
+  - Patients (Limited Access):
+    - Home | Appointments | Medical Records | Medical Tests | Prescriptions | Billing
+    - Dashboard – See upcoming appointments, prescriptions, test results 
     - Schedule/cancel appointments
-    - View medical history
+    - View medical history (no edits allowed)
     - Update profile and contact details
-  - Managers/Admins:
-    - Manage doctors and clinic staff
-    - Approve new clinic registrations
-    - Receptionists:
-    - Register new patients
-    - Schedule appointments for patients
-    - Update clinic schedules
+  - Managers/Admins (Complete Access):
+    - Home | Users | Appointments | Reports | Billing
+    - See system stats (number of patients, doctors, appointments, etc.)
+    - Manage doctors (add, edit, remove)
+    - Generate reports
 - **Data entry forms**.
   - Add new data:
     - Patients can register for the first time
@@ -48,10 +50,10 @@ At an appointment, the doctor can view a patient’s information, update medical
     - Admins can deactivate employee accounts
     - Doctors can archive old prescriptions
 - **Triggers**.
-  - email notifications as reminders for upcoming appointments for patients
-  - email notifications for prescriptions refill reminders
-  - email notifications for canceled or rescheduled appointments
-  - email notifications to alert doctors when test results are available
+  - Add a SQL trigger so a doctor cannot be double booked
+  - Add a trigger that will auto-update the medical record when a test is added
+  - Add a trigger for updating billing when a prescription is added
+
 - **Data queries**.
   - Get patient appointment history
   - Get a list of all doctors and their specialties
@@ -61,5 +63,10 @@ At an appointment, the doctor can view a patient’s information, update medical
   - Retrieve all test requests for a specific patient
 - **Data reports**.
   - Number of appointments per clinic a month
-  - Most frequently requested medical tests
-  - Number of urgent test requests per month
+  - Summary of a patient's treatments and tests
+  - patients per doctor, office schedules
+
+## Technologies
+- **React**
+- **Node.js**
+- **MySQL**
