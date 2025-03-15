@@ -61,5 +61,5 @@ At an appointment, the doctor can view a patient’s information, update medical
   - Retrieve all test requests for a specific patient
 - **Data reports**.
   - Number of appointments per clinic a month
-  - Most frequently requested medical tests
-  - Number of urgent test requests per month
+  - Summary of a patient's treatments and tests
+  - patients per doctor, office schedules
