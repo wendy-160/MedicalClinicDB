@@ -10,16 +10,16 @@ Patients can schedule or cancel appointments with their primary care physician/s
 At an appointment, the doctor can view a patient’s information, update medical records, create prescriptions, and request medical tests. A patient’s medical record can be updated with diagnoses, prescribed treatments, or referrals for more tests as needed. The system also tracks medical records, prescriptions, and billing to ensure financial processing. 
 
 ## How to access
-** Clone the Repo **
+**Clone the Repo**
 ```bash
 git clone https://github.com/wendy-160/MedicalClinicDB.git
 cd MedicalCinicDB
 ```
-** Install Dependencies **
+**Install Dependencies**
 ```bash
 npm install
 ```
-** Start **
+**Start**
 ```bashh
 npm start
 ```
