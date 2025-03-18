@@ -21,7 +21,7 @@ npm install
 ```
 **Start**
 ```bashh
-npm start
+npm run dev
 ```
 The app should now be running
 ## Project Requirements
