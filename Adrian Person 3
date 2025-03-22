@@ -1,0 +1,172 @@
+-- Create medicaltest table (stores test information)
+CREATE TABLE medicaltest (
+    test_id INT AUTO_INCREMENT PRIMARY KEY,
+    test_type VARCHAR(255),
+    patient_id INT,
+    status VARCHAR(50)
+);
+
+-- Create test_order table (stores test results)
+CREATE TABLE test_order (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    test_id INT,
+    result VARCHAR(255),
+    date_ordered DATETIME,
+    FOREIGN KEY (test_id) REFERENCES medicaltest(test_id)
+);
+
+-- Create prescription table (stores prescribed medications)
+CREATE TABLE prescription (
+    prescription_id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT,
+    medication_name VARCHAR(255),
+    dosage VARCHAR(100),
+    date_prescribed DATETIME,
+    status VARCHAR(50)
+);
+
+-- Create medicalrecord table (stores patient medical records)
+CREATE TABLE medicalrecord (
+    record_id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT,
+    medication_details TEXT,
+    test_results TEXT
+);
+
+2. Triggers
+Trigger for updating the medical record when a test is ordered:
+DELIMITER //
+
+CREATE TRIGGER update_mr_after_test_order
+AFTER INSERT ON test_order
+FOR EACH ROW
+BEGIN
+    DECLARE test_results TEXT;
+    -- Get test results from the test_order table
+    SELECT GROUP_CONCAT(result) INTO test_results
+    FROM test_order
+    WHERE test_id = NEW.test_id;
+
+    -- Update the medicalrecord table with test results
+    UPDATE medicalrecord
+    SET test_results = test_results
+    WHERE patient_id = (SELECT patient_id FROM medicaltest WHERE test_id = NEW.test_id);
+END //
+DELIMITER ;
+
+if does not work use
+DELIMITER //
+
+CREATE TRIGGER update_mr_after_test_order
+AFTER INSERT ON test_order
+FOR EACH ROW
+BEGIN
+    -- Update medical record, appending new test result
+    UPDATE medicalrecord
+    SET test_results = IFNULL(CONCAT(test_results, ', ', NEW.result), NEW.result)
+    WHERE patient_id = (SELECT patient_id FROM medicaltest WHERE test_id = NEW.test_id);
+END //
+
+DELIMITER ;
+
+
+Trigger for updating the medical record when a prescription is added:
+
+DELIMITER //
+
+CREATE TRIGGER update_mr_after_prescription
+AFTER INSERT ON prescription
+FOR EACH ROW
+BEGIN
+    DECLARE med_details TEXT;
+    -- Concatenate medication details into one string
+    SET med_details = CONCAT(NEW.medication_name, ' ', NEW.dosage);
+    
+    -- Update the medicalrecord table with medication details
+    UPDATE medicalrecord
+    SET medication_details = IFNULL(CONCAT(medication_details, ', ', med_details), med_details)
+    WHERE patient_id = NEW.patient_id;
+END //
+
+DELIMITER ;
+
+Trigger for updating the billing when a prescription is added:
+DELIMITER //
+
+CREATE TRIGGER update_billing_after_prescription
+AFTER INSERT ON prescription
+FOR EACH ROW
+BEGIN
+    -- Assuming there’s a billing table that keeps track of charges
+    DECLARE price DECIMAL(10,2);
+    
+    -- Here we fetch the price of the medication
+    SELECT price INTO price FROM medications WHERE name = NEW.medication_name;
+    
+    -- Update the billing system
+    INSERT INTO billing (patient_id, medication_name, price)
+    VALUES (NEW.patient_id, NEW.medication_name, price);
+END //
+
+DELIMITER ;
+
+if does not work use
+DELIMITER //
+
+CREATE TRIGGER update_billing_after_prescription
+AFTER INSERT ON prescription
+FOR EACH ROW
+BEGIN
+    DECLARE price DECIMAL(10,2);
+    
+    -- Fetch medication price
+    SELECT price INTO price FROM medications WHERE name = NEW.medication_name;
+
+    -- Only insert billing record if the medication exists
+    IF price IS NOT NULL THEN
+        INSERT INTO billing (patient_id, medication_name, price)
+        VALUES (NEW.patient_id, NEW.medication_name, price);
+    END IF;
+END //
+
+DELIMITER ;
+
+
+3. Basic Queries for Doctors and Patients
+For Doctors (Ordering Tests):
+-- Insert a new test order
+INSERT INTO medicaltest (test_type, patient_id, status)
+VALUES ('Blood Test', 101, 'Ordered');
+
+-- Insert corresponding test result
+INSERT INTO test_order (test_id, result, date_ordered)
+VALUES (LAST_INSERT_ID(), 'Normal', NOW());
+For Doctors (Prescribing Medications):
+-- Insert a new prescription
+INSERT INTO prescription (patient_id, medication_name, dosage, date_prescribed, status)
+VALUES (101, 'Aspirin', '500mg', NOW(), 'Active');
+
+For Patients (Viewing Ordered Tests):
+-- View ordered tests and results for a patient
+SELECT m.test_type, t.result
+FROM medicaltest m
+JOIN test_order t ON m.test_id = t.test_id
+WHERE m.patient_id = 101;
+
+For Patients (Viewing Prescriptions):
+-- View prescriptions for a patient
+SELECT medication_name, dosage, status
+FROM prescription
+WHERE patient_id = 101;
+
+could add foreign keys 
+ALTER TABLE medicaltest ADD FOREIGN KEY (patient_id) REFERENCES patients(patient_id);
+ALTER TABLE test_order ADD FOREIGN KEY (test_id) REFERENCES medicaltest(test_id);
+ALTER TABLE prescription ADD FOREIGN KEY (patient_id) REFERENCES patients(patient_id);
+ALTER TABLE medicalrecord ADD FOREIGN KEY (patient_id) REFERENCES patients(patient_id);
+
+Could add indexing 
+CREATE INDEX idx_patient_id ON medicaltest(patient_id);
+CREATE INDEX idx_test_id ON test_order(test_id);
+CREATE INDEX idx_patient_prescription ON prescription(patient_id);
+CREATE INDEX idx_patient_medicalrecord ON medicalrecord(patient_id);
