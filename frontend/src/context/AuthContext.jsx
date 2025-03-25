@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     axios
       .get("http://localhost:5000/api/auth/me", { withCredentials: true })
       .then((res) => setUser(res.data))
-      .catch(() => setUser(null));  // If authentication fails, set user as null
+      .catch(() => setUser(null)); 
   }, []);
 
   return (

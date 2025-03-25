@@ -8,26 +8,23 @@ const Reports = () => {
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState(null);
   
-  // Filter states
   const [startDate, setStartDate] = useState(new Date().getFullYear() + '-01-01');
   const [endDate, setEndDate] = useState(new Date().getFullYear() + '-12-31');
   const [selectedPatient, setSelectedPatient] = useState('');
   const [selectedDoctor, setSelectedDoctor] = useState('');
   
-  // Lists for selection
   const [patients, setPatients] = useState([]);
   const [doctors, setDoctors] = useState([]);
   
-  // Check if user is admin
+
   const isAdmin = user?.role === 'Admin';
   
   useEffect(() => {
     if (!isAdmin) {
-      // Redirect or show access denied message
       return;
     }
     
-    // Load patients and doctors for selection
+
     loadPatientsAndDoctors();
   }, [isAdmin]);
   
@@ -181,7 +178,6 @@ const Reports = () => {
             {loading ? (
               <p>Loading report data...</p>
             ) : reportData ? (
-              // Render appropriate report based on type
               <>
                 {reportType === 'appointments' && (
                   <AppointmentsReportTable data={reportData} />
@@ -208,7 +204,6 @@ const Reports = () => {
   );
 };
 
-// Component to display appointments report
 const AppointmentsReportTable = ({ data }) => (
   <div>
     <h2>Monthly Appointments by Clinic</h2>
@@ -239,7 +234,6 @@ const AppointmentsReportTable = ({ data }) => (
   </div>
 );
 
-// Component to display patient medical record
 const PatientRecordReport = ({ data }) => (
   <div>
     <h2>Medical Record for: {data.patient.FirstName} {data.patient.LastName}</h2>
@@ -332,9 +326,7 @@ const PatientRecordReport = ({ data }) => (
   </div>
 );
 
-// Component to display doctor workload
 const DoctorWorkloadReport = ({ data, selectedDoctor }) => {
-  // If viewing all doctors
   if (!selectedDoctor) {
     return (
       <div>
@@ -367,7 +359,6 @@ const DoctorWorkloadReport = ({ data, selectedDoctor }) => {
     );
   }
   
-  // If viewing a specific doctor
   return (
     <div>
       <h2>Schedule for Dr. {data.doctor.FirstName} {data.doctor.LastName}</h2>

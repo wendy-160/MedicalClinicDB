@@ -12,11 +12,10 @@ const Billing = () => {
   const isAdmin = user?.role === 'Admin';
   
   useEffect(() => {
-    // If user is a patient, load their billing
     if (user && user.role === 'Patient') {
       loadPatientBilling(user.id);
     } 
-    // If user is admin, load list of patients
+
     else if (isAdmin) {
       loadPatients();
     }
@@ -50,7 +49,6 @@ const Billing = () => {
   const updatePaymentStatus = async (billId, status) => {
     try {
       await axios.put(`/api/billing/${billId}/status`, { status });
-      // Refresh the billing records
       loadPatientBilling(selectedPatient);
     } catch (error) {
       console.error('Error updating payment status:', error);
@@ -59,7 +57,7 @@ const Billing = () => {
   
   const generateInvoice = async (billId) => {
     try {
-      // This would typically generate a PDF or redirect to a printable page
+
       window.open(`/api/billing/${billId}/invoice`, '_blank');
     } catch (error) {
       console.error('Error generating invoice:', error);
