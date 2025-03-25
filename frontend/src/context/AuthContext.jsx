@@ -1,0 +1,28 @@
+import { createContext, useState, useEffect, useContext } from "react";
+import axios from "axios";
+
+const AuthContext = createContext();
+
+
+export const useAuth = () => {
+  return useContext(AuthContext); 
+};
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/auth/me", { withCredentials: true })
+      .then((res) => setUser(res.data))
+      .catch(() => setUser(null));  // If authentication fails, set user as null
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ user, setUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export default AuthContext;
